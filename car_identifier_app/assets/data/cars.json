@@ -1,0 +1,702 @@
+[
+  {
+    "id": 1,
+    "make": "Toyota",
+    "model": "Corolla",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 2,
+    "make": "Toyota",
+    "model": "RAV4",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 3,
+    "make": "Toyota",
+    "model": "Prius",
+    "category": "Hatchback",
+    "year": 2021
+  },
+  {
+    "id": 4,
+    "make": "Toyota",
+    "model": "Camry",
+    "category": "Sedan",
+    "year": 2023
+  },
+  {
+    "id": 5,
+    "make": "Toyota",
+    "model": "Tacoma",
+    "category": "Pickup",
+    "year": 2022
+  },
+  {
+    "id": 6,
+    "make": "Toyota",
+    "model": "Supra",
+    "category": "Sports Car",
+    "year": 2023
+  },
+  {
+    "id": 7,
+    "make": "Toyota",
+    "model": "Highlander",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 8,
+    "make": "Toyota",
+    "model": "Sienna",
+    "category": "Minivan",
+    "year": 2023
+  },
+  {
+    "id": 9,
+    "make": "Honda",
+    "model": "Civic",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 10,
+    "make": "Honda",
+    "model": "CR-V",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 11,
+    "make": "Honda",
+    "model": "Accord",
+    "category": "Sedan",
+    "year": 2023
+  },
+  {
+    "id": 12,
+    "make": "Honda",
+    "model": "Pilot",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 13,
+    "make": "Honda",
+    "model": "Odyssey",
+    "category": "Minivan",
+    "year": 2022
+  },
+  {
+    "id": 14,
+    "make": "Honda",
+    "model": "HR-V",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 15,
+    "make": "Honda",
+    "model": "Ridgeline",
+    "category": "Pickup",
+    "year": 2022
+  },
+  {
+    "id": 16,
+    "make": "Ford",
+    "model": "F-150",
+    "category": "Pickup",
+    "year": 2023
+  },
+  {
+    "id": 17,
+    "make": "Ford",
+    "model": "Mustang",
+    "category": "Sports Car",
+    "year": 2022
+  },
+  {
+    "id": 18,
+    "make": "Ford",
+    "model": "Explorer",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 19,
+    "make": "Ford",
+    "model": "Escape",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 20,
+    "make": "Ford",
+    "model": "Bronco",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 21,
+    "make": "Ford",
+    "model": "Maverick",
+    "category": "Pickup",
+    "year": 2022
+  },
+  {
+    "id": 22,
+    "make": "Ford",
+    "model": "Edge",
+    "category": "SUV",
+    "year": 2021
+  },
+  {
+    "id": 23,
+    "make": "Chevrolet",
+    "model": "Silverado",
+    "category": "Pickup",
+    "year": 2023
+  },
+  {
+    "id": 24,
+    "make": "Chevrolet",
+    "model": "Malibu",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 25,
+    "make": "Chevrolet",
+    "model": "Equinox",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 26,
+    "make": "Chevrolet",
+    "model": "Tahoe",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 27,
+    "make": "Chevrolet",
+    "model": "Corvette",
+    "category": "Sports Car",
+    "year": 2023
+  },
+  {
+    "id": 28,
+    "make": "Chevrolet",
+    "model": "Bolt EV",
+    "category": "Hatchback",
+    "year": 2022
+  },
+  {
+    "id": 29,
+    "make": "Chevrolet",
+    "model": "Colorado",
+    "category": "Pickup",
+    "year": 2022
+  },
+  {
+    "id": 30,
+    "make": "BMW",
+    "model": "3 Series",
+    "category": "Sedan",
+    "year": 2023
+  },
+  {
+    "id": 31,
+    "make": "BMW",
+    "model": "X5",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 32,
+    "make": "BMW",
+    "model": "5 Series",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 33,
+    "make": "BMW",
+    "model": "i4",
+    "category": "Electric Sedan",
+    "year": 2023
+  },
+  {
+    "id": 34,
+    "make": "BMW",
+    "model": "M4",
+    "category": "Sports Car",
+    "year": 2023
+  },
+  {
+    "id": 35,
+    "make": "BMW",
+    "model": "X3",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 36,
+    "make": "Mercedes-Benz",
+    "model": "C-Class",
+    "category": "Sedan",
+    "year": 2023
+  },
+  {
+    "id": 37,
+    "make": "Mercedes-Benz",
+    "model": "GLE",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 38,
+    "make": "Mercedes-Benz",
+    "model": "E-Class",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 39,
+    "make": "Mercedes-Benz",
+    "model": "EQS",
+    "category": "Electric Sedan",
+    "year": 2023
+  },
+  {
+    "id": 40,
+    "make": "Mercedes-Benz",
+    "model": "GLA",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 41,
+    "make": "Mercedes-Benz",
+    "model": "S-Class",
+    "category": "Luxury Sedan",
+    "year": 2023
+  },
+  {
+    "id": 42,
+    "make": "Audi",
+    "model": "A4",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 43,
+    "make": "Audi",
+    "model": "Q5",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 44,
+    "make": "Audi",
+    "model": "A6",
+    "category": "Sedan",
+    "year": 2023
+  },
+  {
+    "id": 45,
+    "make": "Audi",
+    "model": "e-tron",
+    "category": "Electric SUV",
+    "year": 2022
+  },
+  {
+    "id": 46,
+    "make": "Audi",
+    "model": "R8",
+    "category": "Sports Car",
+    "year": 2022
+  },
+  {
+    "id": 47,
+    "make": "Tesla",
+    "model": "Model 3",
+    "category": "Electric Sedan",
+    "year": 2023
+  },
+  {
+    "id": 48,
+    "make": "Tesla",
+    "model": "Model Y",
+    "category": "Electric SUV",
+    "year": 2023
+  },
+  {
+    "id": 49,
+    "make": "Tesla",
+    "model": "Model S",
+    "category": "Electric Sedan",
+    "year": 2022
+  },
+  {
+    "id": 50,
+    "make": "Tesla",
+    "model": "Model X",
+    "category": "Electric SUV",
+    "year": 2022
+  },
+  {
+    "id": 51,
+    "make": "Nissan",
+    "model": "Altima",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 52,
+    "make": "Nissan",
+    "model": "Rogue",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 53,
+    "make": "Nissan",
+    "model": "Sentra",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 54,
+    "make": "Nissan",
+    "model": "Pathfinder",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 55,
+    "make": "Nissan",
+    "model": "Frontier",
+    "category": "Pickup",
+    "year": 2022
+  },
+  {
+    "id": 56,
+    "make": "Nissan",
+    "model": "LEAF",
+    "category": "Electric Hatchback",
+    "year": 2022
+  },
+  {
+    "id": 57,
+    "make": "Nissan",
+    "model": "Z",
+    "category": "Sports Car",
+    "year": 2023
+  },
+  {
+    "id": 58,
+    "make": "Hyundai",
+    "model": "Elantra",
+    "category": "Sedan",
+    "year": 2023
+  },
+  {
+    "id": 59,
+    "make": "Hyundai",
+    "model": "Tucson",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 60,
+    "make": "Hyundai",
+    "model": "Sonata",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 61,
+    "make": "Hyundai",
+    "model": "Santa Fe",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 62,
+    "make": "Hyundai",
+    "model": "Ioniq 5",
+    "category": "Electric SUV",
+    "year": 2023
+  },
+  {
+    "id": 63,
+    "make": "Hyundai",
+    "model": "Palisade",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 64,
+    "make": "Kia",
+    "model": "Forte",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 65,
+    "make": "Kia",
+    "model": "Sportage",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 66,
+    "make": "Kia",
+    "model": "K5",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 67,
+    "make": "Kia",
+    "model": "Sorento",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 68,
+    "make": "Kia",
+    "model": "EV6",
+    "category": "Electric SUV",
+    "year": 2023
+  },
+  {
+    "id": 69,
+    "make": "Kia",
+    "model": "Telluride",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 70,
+    "make": "Subaru",
+    "model": "Outback",
+    "category": "Wagon",
+    "year": 2023
+  },
+  {
+    "id": 71,
+    "make": "Subaru",
+    "model": "Forester",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 72,
+    "make": "Subaru",
+    "model": "Impreza",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 73,
+    "make": "Subaru",
+    "model": "Crosstrek",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 74,
+    "make": "Subaru",
+    "model": "WRX",
+    "category": "Sports Car",
+    "year": 2022
+  },
+  {
+    "id": 75,
+    "make": "Mazda",
+    "model": "CX-5",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 76,
+    "make": "Mazda",
+    "model": "Mazda3",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 77,
+    "make": "Mazda",
+    "model": "CX-30",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 78,
+    "make": "Mazda",
+    "model": "MX-5 Miata",
+    "category": "Sports Car",
+    "year": 2022
+  },
+  {
+    "id": 79,
+    "make": "Mazda",
+    "model": "CX-9",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 80,
+    "make": "Volkswagen",
+    "model": "Jetta",
+    "category": "Sedan",
+    "year": 2022
+  },
+  {
+    "id": 81,
+    "make": "Volkswagen",
+    "model": "Tiguan",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 82,
+    "make": "Volkswagen",
+    "model": "Golf GTI",
+    "category": "Hatchback",
+    "year": 2022
+  },
+  {
+    "id": 83,
+    "make": "Volkswagen",
+    "model": "ID.4",
+    "category": "Electric SUV",
+    "year": 2023
+  },
+  {
+    "id": 84,
+    "make": "Volkswagen",
+    "model": "Atlas",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 85,
+    "make": "Lexus",
+    "model": "RX",
+    "category": "Luxury SUV",
+    "year": 2023
+  },
+  {
+    "id": 86,
+    "make": "Lexus",
+    "model": "ES",
+    "category": "Luxury Sedan",
+    "year": 2022
+  },
+  {
+    "id": 87,
+    "make": "Lexus",
+    "model": "NX",
+    "category": "Luxury SUV",
+    "year": 2023
+  },
+  {
+    "id": 88,
+    "make": "Lexus",
+    "model": "IS",
+    "category": "Luxury Sedan",
+    "year": 2022
+  },
+  {
+    "id": 89,
+    "make": "Jeep",
+    "model": "Wrangler",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 90,
+    "make": "Jeep",
+    "model": "Grand Cherokee",
+    "category": "SUV",
+    "year": 2023
+  },
+  {
+    "id": 91,
+    "make": "Jeep",
+    "model": "Cherokee",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 92,
+    "make": "Jeep",
+    "model": "Compass",
+    "category": "SUV",
+    "year": 2022
+  },
+  {
+    "id": 93,
+    "make": "Porsche",
+    "model": "911",
+    "category": "Sports Car",
+    "year": 2023
+  },
+  {
+    "id": 94,
+    "make": "Porsche",
+    "model": "Cayenne",
+    "category": "Luxury SUV",
+    "year": 2023
+  },
+  {
+    "id": 95,
+    "make": "Porsche",
+    "model": "Taycan",
+    "category": "Electric Sedan",
+    "year": 2022
+  },
+  {
+    "id": 96,
+    "make": "Porsche",
+    "model": "Macan",
+    "category": "Luxury SUV",
+    "year": 2022
+  },
+  {
+    "id": 97,
+    "make": "Volvo",
+    "model": "XC90",
+    "category": "Luxury SUV",
+    "year": 2023
+  },
+  {
+    "id": 98,
+    "make": "Volvo",
+    "model": "XC60",
+    "category": "Luxury SUV",
+    "year": 2022
+  },
+  {
+    "id": 99,
+    "make": "Volvo",
+    "model": "S60",
+    "category": "Luxury Sedan",
+    "year": 2022
+  },
+  {
+    "id": 100,
+    "make": "Volvo",
+    "model": "C40 Recharge",
+    "category": "Electric SUV",
+    "year": 2023
+  }
+]
