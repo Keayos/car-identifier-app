@@ -17,28 +17,53 @@ const CarModelSchema = CollectionSchema(
   name: r'CarModel',
   id: -7339873665292748562,
   properties: {
-    r'category': PropertySchema(
+    r'drivenWheels': PropertySchema(
       id: 0,
-      name: r'category',
+      name: r'drivenWheels',
       type: IsarType.string,
     ),
-    r'make': PropertySchema(
+    r'engineCylinders': PropertySchema(
       id: 1,
+      name: r'engineCylinders',
+      type: IsarType.long,
+    ),
+    r'engineFuelType': PropertySchema(
+      id: 2,
+      name: r'engineFuelType',
+      type: IsarType.string,
+    ),
+    r'engineHp': PropertySchema(
+      id: 3,
+      name: r'engineHp',
+      type: IsarType.double,
+    ),
+    r'make': PropertySchema(
+      id: 4,
       name: r'make',
       type: IsarType.string,
     ),
-    r'mlLabel': PropertySchema(
-      id: 2,
-      name: r'mlLabel',
-      type: IsarType.string,
-    ),
     r'model': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'model',
       type: IsarType.string,
     ),
+    r'numberOfDoors': PropertySchema(
+      id: 6,
+      name: r'numberOfDoors',
+      type: IsarType.long,
+    ),
+    r'transmissionType': PropertySchema(
+      id: 7,
+      name: r'transmissionType',
+      type: IsarType.string,
+    ),
+    r'vehicleSize': PropertySchema(
+      id: 8,
+      name: r'vehicleSize',
+      type: IsarType.string,
+    ),
     r'year': PropertySchema(
-      id: 4,
+      id: 9,
       name: r'year',
       type: IsarType.long,
     )
@@ -75,27 +100,40 @@ const CarModelSchema = CollectionSchema(
         )
       ],
     ),
-    r'category': IndexSchema(
-      id: -7560358558326323820,
-      name: r'category',
+    r'transmissionType': IndexSchema(
+      id: 8506545184205218837,
+      name: r'transmissionType',
       unique: false,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'category',
+          name: r'transmissionType',
           type: IndexType.value,
           caseSensitive: false,
         )
       ],
     ),
-    r'mlLabel': IndexSchema(
-      id: 6889646394656605731,
-      name: r'mlLabel',
+    r'drivenWheels': IndexSchema(
+      id: -1283863759071386780,
+      name: r'drivenWheels',
       unique: false,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'mlLabel',
+          name: r'drivenWheels',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'vehicleSize': IndexSchema(
+      id: 2383703215079696891,
+      name: r'vehicleSize',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'vehicleSize',
           type: IndexType.value,
           caseSensitive: false,
         )
@@ -116,15 +154,32 @@ int _carModelEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.category.length * 3;
-  bytesCount += 3 + object.make.length * 3;
   {
-    final value = object.mlLabel;
+    final value = object.drivenWheels;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.engineFuelType;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.make.length * 3;
   bytesCount += 3 + object.model.length * 3;
+  {
+    final value = object.transmissionType;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.vehicleSize;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -134,11 +189,16 @@ void _carModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.category);
-  writer.writeString(offsets[1], object.make);
-  writer.writeString(offsets[2], object.mlLabel);
-  writer.writeString(offsets[3], object.model);
-  writer.writeLong(offsets[4], object.year);
+  writer.writeString(offsets[0], object.drivenWheels);
+  writer.writeLong(offsets[1], object.engineCylinders);
+  writer.writeString(offsets[2], object.engineFuelType);
+  writer.writeDouble(offsets[3], object.engineHp);
+  writer.writeString(offsets[4], object.make);
+  writer.writeString(offsets[5], object.model);
+  writer.writeLong(offsets[6], object.numberOfDoors);
+  writer.writeString(offsets[7], object.transmissionType);
+  writer.writeString(offsets[8], object.vehicleSize);
+  writer.writeLong(offsets[9], object.year);
 }
 
 CarModel _carModelDeserialize(
@@ -148,12 +208,17 @@ CarModel _carModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = CarModel();
-  object.category = reader.readString(offsets[0]);
+  object.drivenWheels = reader.readStringOrNull(offsets[0]);
+  object.engineCylinders = reader.readLongOrNull(offsets[1]);
+  object.engineFuelType = reader.readStringOrNull(offsets[2]);
+  object.engineHp = reader.readDoubleOrNull(offsets[3]);
   object.id = id;
-  object.make = reader.readString(offsets[1]);
-  object.mlLabel = reader.readStringOrNull(offsets[2]);
-  object.model = reader.readString(offsets[3]);
-  object.year = reader.readLong(offsets[4]);
+  object.make = reader.readString(offsets[4]);
+  object.model = reader.readString(offsets[5]);
+  object.numberOfDoors = reader.readLongOrNull(offsets[6]);
+  object.transmissionType = reader.readStringOrNull(offsets[7]);
+  object.vehicleSize = reader.readStringOrNull(offsets[8]);
+  object.year = reader.readLong(offsets[9]);
   return object;
 }
 
@@ -165,14 +230,24 @@ P _carModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readLongOrNull(offset)) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset)) as P;
+    case 9:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -214,18 +289,26 @@ extension CarModelQueryWhereSort on QueryBuilder<CarModel, CarModel, QWhere> {
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhere> anyCategory() {
+  QueryBuilder<CarModel, CarModel, QAfterWhere> anyTransmissionType() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'category'),
+        const IndexWhereClause.any(indexName: r'transmissionType'),
       );
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhere> anyMlLabel() {
+  QueryBuilder<CarModel, CarModel, QAfterWhere> anyDrivenWheels() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'mlLabel'),
+        const IndexWhereClause.any(indexName: r'drivenWheels'),
+      );
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhere> anyVehicleSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'vehicleSize'),
       );
     });
   }
@@ -568,155 +651,20 @@ extension CarModelQueryWhere on QueryBuilder<CarModel, CarModel, QWhereClause> {
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> categoryEqualTo(
-      String category) {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> transmissionTypeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'category',
-        value: [category],
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> categoryNotEqualTo(
-      String category) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'category',
-              lower: [],
-              upper: [category],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'category',
-              lower: [category],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'category',
-              lower: [category],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'category',
-              lower: [],
-              upper: [category],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> categoryGreaterThan(
-    String category, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'category',
-        lower: [category],
-        includeLower: include,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> categoryLessThan(
-    String category, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'category',
-        lower: [],
-        upper: [category],
-        includeUpper: include,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> categoryBetween(
-    String lowerCategory,
-    String upperCategory, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'category',
-        lower: [lowerCategory],
-        includeLower: includeLower,
-        upper: [upperCategory],
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> categoryStartsWith(
-      String CategoryPrefix) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'category',
-        lower: [CategoryPrefix],
-        upper: ['$CategoryPrefix\u{FFFFF}'],
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> categoryIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'category',
-        value: [''],
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> categoryIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'category',
-              upper: [''],
-            ))
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'category',
-              lower: [''],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'category',
-              lower: [''],
-            ))
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'category',
-              upper: [''],
-            ));
-      }
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'mlLabel',
+        indexName: r'transmissionType',
         value: [null],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelIsNotNull() {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause>
+      transmissionTypeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'mlLabel',
+        indexName: r'transmissionType',
         lower: [null],
         includeLower: false,
         upper: [],
@@ -724,136 +672,451 @@ extension CarModelQueryWhere on QueryBuilder<CarModel, CarModel, QWhereClause> {
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelEqualTo(
-      String? mlLabel) {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> transmissionTypeEqualTo(
+      String? transmissionType) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'mlLabel',
-        value: [mlLabel],
+        indexName: r'transmissionType',
+        value: [transmissionType],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelNotEqualTo(
-      String? mlLabel) {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause>
+      transmissionTypeNotEqualTo(String? transmissionType) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'mlLabel',
+              indexName: r'transmissionType',
               lower: [],
-              upper: [mlLabel],
+              upper: [transmissionType],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'mlLabel',
-              lower: [mlLabel],
+              indexName: r'transmissionType',
+              lower: [transmissionType],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'mlLabel',
-              lower: [mlLabel],
+              indexName: r'transmissionType',
+              lower: [transmissionType],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'mlLabel',
+              indexName: r'transmissionType',
               lower: [],
-              upper: [mlLabel],
+              upper: [transmissionType],
               includeUpper: false,
             ));
       }
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelGreaterThan(
-    String? mlLabel, {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause>
+      transmissionTypeGreaterThan(
+    String? transmissionType, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'mlLabel',
-        lower: [mlLabel],
+        indexName: r'transmissionType',
+        lower: [transmissionType],
         includeLower: include,
         upper: [],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelLessThan(
-    String? mlLabel, {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> transmissionTypeLessThan(
+    String? transmissionType, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'mlLabel',
+        indexName: r'transmissionType',
         lower: [],
-        upper: [mlLabel],
+        upper: [transmissionType],
         includeUpper: include,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelBetween(
-    String? lowerMlLabel,
-    String? upperMlLabel, {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> transmissionTypeBetween(
+    String? lowerTransmissionType,
+    String? upperTransmissionType, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'mlLabel',
-        lower: [lowerMlLabel],
+        indexName: r'transmissionType',
+        lower: [lowerTransmissionType],
         includeLower: includeLower,
-        upper: [upperMlLabel],
+        upper: [upperTransmissionType],
         includeUpper: includeUpper,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelStartsWith(
-      String MlLabelPrefix) {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause>
+      transmissionTypeStartsWith(String TransmissionTypePrefix) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'mlLabel',
-        lower: [MlLabelPrefix],
-        upper: ['$MlLabelPrefix\u{FFFFF}'],
+        indexName: r'transmissionType',
+        lower: [TransmissionTypePrefix],
+        upper: ['$TransmissionTypePrefix\u{FFFFF}'],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelIsEmpty() {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause>
+      transmissionTypeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'mlLabel',
+        indexName: r'transmissionType',
         value: [''],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> mlLabelIsNotEmpty() {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause>
+      transmissionTypeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'mlLabel',
+              indexName: r'transmissionType',
               upper: [''],
             ))
             .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'mlLabel',
+              indexName: r'transmissionType',
               lower: [''],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'mlLabel',
+              indexName: r'transmissionType',
               lower: [''],
             ))
             .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'mlLabel',
+              indexName: r'transmissionType',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'drivenWheels',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'drivenWheels',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsEqualTo(
+      String? drivenWheels) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'drivenWheels',
+        value: [drivenWheels],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsNotEqualTo(
+      String? drivenWheels) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'drivenWheels',
+              lower: [],
+              upper: [drivenWheels],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'drivenWheels',
+              lower: [drivenWheels],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'drivenWheels',
+              lower: [drivenWheels],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'drivenWheels',
+              lower: [],
+              upper: [drivenWheels],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsGreaterThan(
+    String? drivenWheels, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'drivenWheels',
+        lower: [drivenWheels],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsLessThan(
+    String? drivenWheels, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'drivenWheels',
+        lower: [],
+        upper: [drivenWheels],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsBetween(
+    String? lowerDrivenWheels,
+    String? upperDrivenWheels, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'drivenWheels',
+        lower: [lowerDrivenWheels],
+        includeLower: includeLower,
+        upper: [upperDrivenWheels],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsStartsWith(
+      String DrivenWheelsPrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'drivenWheels',
+        lower: [DrivenWheelsPrefix],
+        upper: ['$DrivenWheelsPrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'drivenWheels',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> drivenWheelsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'drivenWheels',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'drivenWheels',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'drivenWheels',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'drivenWheels',
+              upper: [''],
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'vehicleSize',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'vehicleSize',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeEqualTo(
+      String? vehicleSize) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'vehicleSize',
+        value: [vehicleSize],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeNotEqualTo(
+      String? vehicleSize) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'vehicleSize',
+              lower: [],
+              upper: [vehicleSize],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'vehicleSize',
+              lower: [vehicleSize],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'vehicleSize',
+              lower: [vehicleSize],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'vehicleSize',
+              lower: [],
+              upper: [vehicleSize],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeGreaterThan(
+    String? vehicleSize, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'vehicleSize',
+        lower: [vehicleSize],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeLessThan(
+    String? vehicleSize, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'vehicleSize',
+        lower: [],
+        upper: [vehicleSize],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeBetween(
+    String? lowerVehicleSize,
+    String? upperVehicleSize, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'vehicleSize',
+        lower: [lowerVehicleSize],
+        includeLower: includeLower,
+        upper: [upperVehicleSize],
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeStartsWith(
+      String VehicleSizePrefix) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'vehicleSize',
+        lower: [VehicleSizePrefix],
+        upper: ['$VehicleSizePrefix\u{FFFFF}'],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'vehicleSize',
+        value: [''],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> vehicleSizeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'vehicleSize',
+              upper: [''],
+            ))
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'vehicleSize',
+              lower: [''],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.greaterThan(
+              indexName: r'vehicleSize',
+              lower: [''],
+            ))
+            .addWhereClause(IndexWhereClause.lessThan(
+              indexName: r'vehicleSize',
               upper: [''],
             ));
       }
@@ -863,59 +1126,77 @@ extension CarModelQueryWhere on QueryBuilder<CarModel, CarModel, QWhereClause> {
 
 extension CarModelQueryFilter
     on QueryBuilder<CarModel, CarModel, QFilterCondition> {
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryEqualTo(
-    String value, {
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> drivenWheelsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'drivenWheels',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      drivenWheelsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'drivenWheels',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> drivenWheelsEqualTo(
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'category',
+        property: r'drivenWheels',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryGreaterThan(
-    String value, {
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      drivenWheelsGreaterThan(
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'category',
+        property: r'drivenWheels',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryLessThan(
-    String value, {
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> drivenWheelsLessThan(
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'category',
+        property: r'drivenWheels',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryBetween(
-    String lower,
-    String upper, {
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> drivenWheelsBetween(
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'category',
+        property: r'drivenWheels',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -925,70 +1206,378 @@ extension CarModelQueryFilter
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryStartsWith(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      drivenWheelsStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'category',
+        property: r'drivenWheels',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryEndsWith(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> drivenWheelsEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'category',
+        property: r'drivenWheels',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryContains(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> drivenWheelsContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'category',
+        property: r'drivenWheels',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryMatches(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> drivenWheelsMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'category',
+        property: r'drivenWheels',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryIsEmpty() {
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      drivenWheelsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'category',
+        property: r'drivenWheels',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> categoryIsNotEmpty() {
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      drivenWheelsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'category',
+        property: r'drivenWheels',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineCylindersIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'engineCylinders',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineCylindersIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'engineCylinders',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineCylindersEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'engineCylinders',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineCylindersGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'engineCylinders',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineCylindersLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'engineCylinders',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineCylindersBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'engineCylinders',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'engineFuelType',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'engineFuelType',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineFuelTypeEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'engineFuelType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'engineFuelType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'engineFuelType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineFuelTypeBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'engineFuelType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'engineFuelType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'engineFuelType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'engineFuelType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineFuelTypeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'engineFuelType',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'engineFuelType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      engineFuelTypeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'engineFuelType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineHpIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'engineHp',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineHpIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'engineHp',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineHpEqualTo(
+    double? value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'engineHp',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineHpGreaterThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'engineHp',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineHpLessThan(
+    double? value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'engineHp',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> engineHpBetween(
+    double? lower,
+    double? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'engineHp',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
       ));
     });
   }
@@ -1175,152 +1764,6 @@ extension CarModelQueryFilter
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'mlLabel',
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'mlLabel',
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'mlLabel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'mlLabel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'mlLabel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'mlLabel',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'mlLabel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'mlLabel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'mlLabel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'mlLabel',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'mlLabel',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> mlLabelIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'mlLabel',
-        value: '',
-      ));
-    });
-  }
-
   QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1451,6 +1894,381 @@ extension CarModelQueryFilter
     });
   }
 
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      numberOfDoorsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'numberOfDoors',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      numberOfDoorsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'numberOfDoors',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> numberOfDoorsEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'numberOfDoors',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      numberOfDoorsGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'numberOfDoors',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> numberOfDoorsLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'numberOfDoors',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> numberOfDoorsBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'numberOfDoors',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'transmissionType',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'transmissionType',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'transmissionType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'transmissionType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'transmissionType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'transmissionType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'transmissionType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'transmissionType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'transmissionType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'transmissionType',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'transmissionType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      transmissionTypeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'transmissionType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'vehicleSize',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      vehicleSizeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'vehicleSize',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'vehicleSize',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      vehicleSizeGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'vehicleSize',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'vehicleSize',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'vehicleSize',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'vehicleSize',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'vehicleSize',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'vehicleSize',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'vehicleSize',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> vehicleSizeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'vehicleSize',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      vehicleSizeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'vehicleSize',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<CarModel, CarModel, QAfterFilterCondition> yearEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
@@ -1512,15 +2330,51 @@ extension CarModelQueryLinks
     on QueryBuilder<CarModel, CarModel, QFilterCondition> {}
 
 extension CarModelQuerySortBy on QueryBuilder<CarModel, CarModel, QSortBy> {
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByCategory() {
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByDrivenWheels() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'category', Sort.asc);
+      return query.addSortBy(r'drivenWheels', Sort.asc);
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByCategoryDesc() {
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByDrivenWheelsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'category', Sort.desc);
+      return query.addSortBy(r'drivenWheels', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByEngineCylinders() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineCylinders', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByEngineCylindersDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineCylinders', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByEngineFuelType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineFuelType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByEngineFuelTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineFuelType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByEngineHp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineHp', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByEngineHpDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineHp', Sort.desc);
     });
   }
 
@@ -1536,18 +2390,6 @@ extension CarModelQuerySortBy on QueryBuilder<CarModel, CarModel, QSortBy> {
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMlLabel() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'mlLabel', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMlLabelDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'mlLabel', Sort.desc);
-    });
-  }
-
   QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByModel() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'model', Sort.asc);
@@ -1557,6 +2399,42 @@ extension CarModelQuerySortBy on QueryBuilder<CarModel, CarModel, QSortBy> {
   QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByModelDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'model', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByNumberOfDoors() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'numberOfDoors', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByNumberOfDoorsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'numberOfDoors', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByTransmissionType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transmissionType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByTransmissionTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transmissionType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByVehicleSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vehicleSize', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByVehicleSizeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vehicleSize', Sort.desc);
     });
   }
 
@@ -1575,15 +2453,51 @@ extension CarModelQuerySortBy on QueryBuilder<CarModel, CarModel, QSortBy> {
 
 extension CarModelQuerySortThenBy
     on QueryBuilder<CarModel, CarModel, QSortThenBy> {
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByCategory() {
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByDrivenWheels() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'category', Sort.asc);
+      return query.addSortBy(r'drivenWheels', Sort.asc);
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByCategoryDesc() {
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByDrivenWheelsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'category', Sort.desc);
+      return query.addSortBy(r'drivenWheels', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByEngineCylinders() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineCylinders', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByEngineCylindersDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineCylinders', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByEngineFuelType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineFuelType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByEngineFuelTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineFuelType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByEngineHp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineHp', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByEngineHpDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'engineHp', Sort.desc);
     });
   }
 
@@ -1611,18 +2525,6 @@ extension CarModelQuerySortThenBy
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMlLabel() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'mlLabel', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMlLabelDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'mlLabel', Sort.desc);
-    });
-  }
-
   QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByModel() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'model', Sort.asc);
@@ -1632,6 +2534,42 @@ extension CarModelQuerySortThenBy
   QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByModelDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'model', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByNumberOfDoors() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'numberOfDoors', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByNumberOfDoorsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'numberOfDoors', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByTransmissionType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transmissionType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByTransmissionTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transmissionType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByVehicleSize() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vehicleSize', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByVehicleSizeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'vehicleSize', Sort.desc);
     });
   }
 
@@ -1650,10 +2588,30 @@ extension CarModelQuerySortThenBy
 
 extension CarModelQueryWhereDistinct
     on QueryBuilder<CarModel, CarModel, QDistinct> {
-  QueryBuilder<CarModel, CarModel, QDistinct> distinctByCategory(
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByDrivenWheels(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'category', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'drivenWheels', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByEngineCylinders() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'engineCylinders');
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByEngineFuelType(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'engineFuelType',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByEngineHp() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'engineHp');
     });
   }
 
@@ -1664,17 +2622,31 @@ extension CarModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QDistinct> distinctByMlLabel(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'mlLabel', caseSensitive: caseSensitive);
-    });
-  }
-
   QueryBuilder<CarModel, CarModel, QDistinct> distinctByModel(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'model', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByNumberOfDoors() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'numberOfDoors');
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByTransmissionType(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'transmissionType',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByVehicleSize(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'vehicleSize', caseSensitive: caseSensitive);
     });
   }
 
@@ -1693,9 +2665,27 @@ extension CarModelQueryProperty
     });
   }
 
-  QueryBuilder<CarModel, String, QQueryOperations> categoryProperty() {
+  QueryBuilder<CarModel, String?, QQueryOperations> drivenWheelsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'category');
+      return query.addPropertyName(r'drivenWheels');
+    });
+  }
+
+  QueryBuilder<CarModel, int?, QQueryOperations> engineCylindersProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'engineCylinders');
+    });
+  }
+
+  QueryBuilder<CarModel, String?, QQueryOperations> engineFuelTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'engineFuelType');
+    });
+  }
+
+  QueryBuilder<CarModel, double?, QQueryOperations> engineHpProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'engineHp');
     });
   }
 
@@ -1705,15 +2695,27 @@ extension CarModelQueryProperty
     });
   }
 
-  QueryBuilder<CarModel, String?, QQueryOperations> mlLabelProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'mlLabel');
-    });
-  }
-
   QueryBuilder<CarModel, String, QQueryOperations> modelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'model');
+    });
+  }
+
+  QueryBuilder<CarModel, int?, QQueryOperations> numberOfDoorsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'numberOfDoors');
+    });
+  }
+
+  QueryBuilder<CarModel, String?, QQueryOperations> transmissionTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'transmissionType');
+    });
+  }
+
+  QueryBuilder<CarModel, String?, QQueryOperations> vehicleSizeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'vehicleSize');
     });
   }
 

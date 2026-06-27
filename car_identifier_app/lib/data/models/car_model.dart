@@ -12,12 +12,20 @@ class CarModel {
   @Index(type: IndexType.value, caseSensitive: false)
   late String model;
 
-  @Index(type: IndexType.value, caseSensitive: false)
-  late String category;
-
   late int year;
 
-  // Phase 2 hook — matches TFLite label map output
+  String? engineFuelType;
+  double? engineHp;
+  int? engineCylinders;
+
   @Index(type: IndexType.value, caseSensitive: false)
-  String? mlLabel;
+  String? transmissionType;
+
+  @Index(type: IndexType.value, caseSensitive: false)
+  String? drivenWheels;
+
+  int? numberOfDoors;
+
+  @Index(type: IndexType.value, caseSensitive: false)
+  String? vehicleSize;
 }

@@ -9,13 +9,13 @@ class IsarCarDatasource {
     final q = query.trim().toLowerCase();
 
     if (q.isEmpty) {
-      return _isar.carModels.where().findAll();
+      // Return first 100 cars on empty query to avoid loading all 12k at once
+      return _isar.carModels.where().limit(100).findAll();
     }
 
     final results = await Future.wait([
       _isar.carModels.where().makeStartsWith(q).findAll(),
       _isar.carModels.where().modelStartsWith(q).findAll(),
-      _isar.carModels.where().categoryEqualTo(q).findAll(),
     ]);
 
     final seen = <int>{};

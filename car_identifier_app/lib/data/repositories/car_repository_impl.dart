@@ -1,4 +1,3 @@
-//import 'package:isar/isar.dart';
 import '../../domain/entities/car.dart';
 import '../../domain/repositories/car_repository.dart';
 import '../datasources/local/isar_car_datasource.dart';
@@ -28,11 +27,16 @@ class CarRepositoryImpl implements CarRepository {
   }
 
   Car _toDomain(CarModel m) => Car(
-    id: m.id,
-    make: m.make,
-    model: m.model,
-    category: m.category,
-    year: m.year,
-    mlLabel: m.mlLabel,
-  );
+        id: m.id,
+        make: m.make,
+        model: m.model,
+        year: m.year,
+        engineFuelType: m.engineFuelType,
+        engineHp: m.engineHp,
+        engineCylinders: m.engineCylinders,
+        transmissionType: m.transmissionType,
+        drivenWheels: m.drivenWheels,
+        numberOfDoors: m.numberOfDoors,
+        vehicleSize: m.vehicleSize,
+      );
 }

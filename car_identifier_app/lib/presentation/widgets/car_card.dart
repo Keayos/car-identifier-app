@@ -22,7 +22,7 @@ class CarCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Car icon placeholder
+            // Icon placeholder
             Container(
               height: 80,
               decoration: BoxDecoration(
@@ -48,15 +48,18 @@ class CarCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               car.year.toString(),
-              style: const TextStyle(
-                  color: AppColors.accent, fontSize: 13),
+              style: const TextStyle(color: AppColors.accent, fontSize: 13),
             ),
-            const SizedBox(height: 4),
-            Text(
-              car.category,
-              style: const TextStyle(
-                  color: AppColors.textSecondary, fontSize: 12),
-            ),
+            if (car.vehicleSize != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                car.vehicleSize!,
+                style: const TextStyle(
+                    color: AppColors.textSecondary, fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ],
         ),
       ),

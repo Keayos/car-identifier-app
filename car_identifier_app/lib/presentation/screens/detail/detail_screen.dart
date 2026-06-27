@@ -30,7 +30,7 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Hero image placeholder ──────────────────────
+            // Hero placeholder
             Container(
               height: 200,
               width: double.infinity,
@@ -47,20 +47,33 @@ class DetailScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // ── Specs ────────────────────────────────────────
-            _sectionTitle('Specifications'),
+            _sectionTitle('General'),
             const SizedBox(height: 12),
-            _specRow('Make',     car.make),
-            _specRow('Model',    car.model),
-            _specRow('Year',     car.year.toString()),
-            _specRow('Category', car.category),
+            _specRow('Make', car.make),
+            _specRow('Model', car.model),
+            _specRow('Year', car.year.toString()),
+            if (car.vehicleSize != null)
+              _specRow('Vehicle Size', car.vehicleSize!),
 
-            if (car.mlLabel != null) ...[
-              const SizedBox(height: 24),
-              _sectionTitle('ML Label'),
-              const SizedBox(height: 12),
-              _specRow('Label', car.mlLabel!),
-            ],
+            const SizedBox(height: 24),
+            _sectionTitle('Engine'),
+            const SizedBox(height: 12),
+            if (car.engineFuelType != null)
+              _specRow('Fuel Type', car.engineFuelType!),
+            if (car.engineHp != null)
+              _specRow('Horsepower', '${car.engineHp!.toStringAsFixed(0)} HP'),
+            if (car.engineCylinders != null)
+              _specRow('Cylinders', car.engineCylinders!.toString()),
+
+            const SizedBox(height: 24),
+            _sectionTitle('Drivetrain'),
+            const SizedBox(height: 12),
+            if (car.transmissionType != null)
+              _specRow('Transmission', car.transmissionType!),
+            if (car.drivenWheels != null)
+              _specRow('Driven Wheels', car.drivenWheels!),
+            if (car.numberOfDoors != null)
+              _specRow('Doors', car.numberOfDoors!.toString()),
           ],
         ),
       ),
@@ -85,11 +98,16 @@ class DetailScreen extends StatelessWidget {
             Text(label,
                 style: const TextStyle(
                     color: AppColors.textSecondary, fontSize: 14)),
-            Text(value,
+            Flexible(
+              child: Text(
+                value,
                 style: const TextStyle(
                     color: AppColors.textPrimary,
                     fontSize: 14,
-                    fontWeight: FontWeight.w500)),
+                    fontWeight: FontWeight.w500),
+                textAlign: TextAlign.end,
+              ),
+            ),
           ],
         ),
       );
