@@ -15,51 +15,80 @@ class CarCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
           border: Border.all(color: AppColors.divider),
         ),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+        child: Row(
           children: [
-            // Icon placeholder
+            // Year badge
             Container(
-              height: 80,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
                 color: AppColors.background,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
               ),
-              child: const Center(
-                child: Icon(Icons.directions_car_rounded,
-                    size: 40, color: AppColors.accent),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${car.make} ${car.model}',
-              style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              car.year.toString(),
-              style: const TextStyle(color: AppColors.accent, fontSize: 13),
-            ),
-            if (car.vehicleSize != null) ...[
-              const SizedBox(height: 4),
-              Text(
-                car.vehicleSize!,
+              child: Text(
+                car.year.toString(),
                 style: const TextStyle(
-                    color: AppColors.textSecondary, fontSize: 12),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                  color: AppColors.accent,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ],
+            ),
+            const SizedBox(width: 16),
+            // Info
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${car.make} ${car.model}',
+                    style: const TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      if (car.vehicleSize != null) ...[
+                        Text(
+                          car.vehicleSize!,
+                          style: const TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                      if (car.vehicleSize != null && car.engineCylinders != null)
+                        const Text(
+                          '  ·  ',
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 13,
+                          ),
+                        ),
+                      if (car.engineCylinders != null)
+                        Text(
+                          '${car.engineCylinders} cyl',
+                          style: const TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 13,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(Icons.chevron_right_rounded,
+                color: AppColors.textSecondary, size: 22),
           ],
         ),
       ),

@@ -52,16 +52,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         children: [
           // ── Search bar ───────────────────────────────────
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: TextField(
               controller: _controller,
               onChanged: _onSearchChanged,
               style: const TextStyle(color: AppColors.textPrimary),
               decoration: InputDecoration(
-                hintText: 'Search make, model, or category…',
-                hintStyle:
-                    const TextStyle(color: AppColors.textSecondary),
+                hintText: 'Search make or model…',
+                hintStyle: const TextStyle(color: AppColors.textSecondary),
                 prefixIcon: const Icon(Icons.search,
                     color: AppColors.textSecondary),
                 suffixIcon: _controller.text.isNotEmpty
@@ -70,9 +68,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             color: AppColors.textSecondary),
                         onPressed: () {
                           _controller.clear();
-                          ref
-                              .read(searchQueryProvider.notifier)
-                              .state = '';
+                          ref.read(searchQueryProvider.notifier).state = '';
                         },
                       )
                     : null,
@@ -95,29 +91,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               error: (e, _) => Center(
                 child: Text('Error: $e',
-                    style:
-                        const TextStyle(color: AppColors.error)),
+                    style: const TextStyle(color: AppColors.error)),
               ),
               data: (cars) {
                 if (cars.isEmpty) {
                   return const Center(
                     child: Text(
                       'No cars found.',
-                      style:
-                          TextStyle(color: AppColors.textSecondary),
+                      style: TextStyle(color: AppColors.textSecondary),
                     ),
                   );
                 }
-                return GridView.builder(
-                  padding: const EdgeInsets.all(16),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 0.85,
-                  ),
+                return ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 12),
                   itemCount: cars.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final car = cars[index];
                     return CarCard(
