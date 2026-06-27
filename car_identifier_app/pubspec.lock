@@ -231,7 +231,7 @@ packages:
     source: hosted
     version: "5.0.0"
   flutter_riverpod:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_riverpod
       sha256: "9532ee6db4a943a1ed8383072a2e3eeda041db5657cdf6d2acecf3c21ecbe7e1"
@@ -292,7 +292,7 @@ packages:
     source: hosted
     version: "1.0.5"
   isar:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: isar
       sha256: "99165dadb2cf2329d3140198363a7e7bff9bbd441871898a87e26914d25cf1ea"
@@ -300,7 +300,7 @@ packages:
     source: hosted
     version: "3.1.0+1"
   isar_flutter_libs:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: isar_flutter_libs
       sha256: bc6768cc4b9c61aabff77152e7f33b4b17d2fc93134f7af1c3dd51500fe8d5e8
@@ -420,7 +420,7 @@ packages:
     source: hosted
     version: "1.9.1"
   path_provider:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: path_provider
       sha256: "50c5dd5b6e1aaf6fb3a78b33f6aa3afca52bf903a8a5298f53101fdaee55bbcd"

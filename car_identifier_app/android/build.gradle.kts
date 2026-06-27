@@ -19,3 +19,13 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+
+gradle.projectsEvaluated {
+    subprojects {
+        extensions.findByType<com.android.build.gradle.BaseExtension>()?.apply {
+            if (namespace == null) {
+                namespace = project.group.toString()
+            }
+        }
+    }
+}
