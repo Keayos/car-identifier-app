@@ -29,5 +29,5 @@ dev_dependencies:
 flutter:
   assets:
     - assets/data/cars.json
+    - assets/logos/
   uses-material-design: true
-

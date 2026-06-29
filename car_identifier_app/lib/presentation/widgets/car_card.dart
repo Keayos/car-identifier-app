@@ -8,8 +8,16 @@ class CarCard extends StatelessWidget {
 
   const CarCard({super.key, required this.car, required this.onTap});
 
+  String? _logoPath() {
+    if (car.make == null) return null;
+    final name = car.make!.toLowerCase().replaceAll(' ', '-');
+    return 'assets/logos/$name.png';
+  }
+
   @override
   Widget build(BuildContext context) {
+    final logoPath = _logoPath();
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -21,7 +29,7 @@ class CarCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
         child: Row(
           children: [
-            // Logo placeholder — will be replaced with car logo later
+            // Car logo
             Container(
               width: 52,
               height: 52,
@@ -29,6 +37,22 @@ class CarCard extends StatelessWidget {
                 color: AppColors.background,
                 borderRadius: BorderRadius.circular(10),
               ),
+              padding: const EdgeInsets.all(6),
+              child: logoPath != null
+                  ? Image.asset(
+                      logoPath,
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => const Icon(
+                        Icons.directions_car_outlined,
+                        color: AppColors.textSecondary,
+                        size: 28,
+                      ),
+                    )
+                  : const Icon(
+                      Icons.directions_car_outlined,
+                      color: AppColors.textSecondary,
+                      size: 28,
+                    ),
             ),
             const SizedBox(width: 16),
             // Info
