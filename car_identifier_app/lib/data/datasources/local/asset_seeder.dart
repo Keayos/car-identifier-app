@@ -8,23 +8,30 @@ class AssetSeeder {
   AssetSeeder(this._isar);
 
   Future<void> seedIfEmpty() async {
-    final count = await _isar.carModels.count();
-    if (count > 0) return;
+    // DEBUG: force reseed to apply new schema data
+    await _isar.writeTxn(() async {
+      await _isar.carModels.clear();
+    });
 
     final jsonString = await rootBundle.loadString('assets/data/cars.json');
     final List<dynamic> jsonList = jsonDecode(jsonString);
 
     final cars = jsonList.map((e) {
       return CarModel()
-        ..makeModel = (e['Make Model'] ?? '').toString().trim()
-        ..year = _parseInt(e['Year'])
-        ..engineFuelType = _str(e['Engine Fuel Type'])
-        ..engineHp = _parseDouble(e['Engine HP'])
-        ..engineCylinders = _parseInt(e['Engine Cylinders'])
-        ..transmissionType = _str(e['Transmission Type'])
-        ..drivenWheels = _str(e['Driven_Wheels'])
-        ..numberOfDoors = _parseInt(e['Number of Doors'])
-        ..vehicleSize = _str(e['Vehicle Size']);
+        ..makeModel          = (e['Make Model'] ?? '').toString().trim()
+        ..make               = _str(e['Make'])
+        ..model              = _str(e['Model'])
+        ..trimDescription    = _str(e['Trim Description'])
+        ..engineFuelType     = _str(e['Engine Fuel Type'])
+        ..engineHp           = _parseDouble(e['Engine Horsepower Hp'])
+        ..engineCylinders    = _str(e['Engine Cylinders'])
+        ..engineSize         = _parseDouble(e['Engine Size'])
+        ..engineRpm          = _parseInt(e['Engine Rpm'])
+        ..engineDriveType    = _str(e['Engine Drive Type'])
+        ..engineTransmission = _str(e['Engine Transmission'])
+        ..bodyType           = _str(e['Body Type'])
+        ..bodyDoors          = _parseInt(e['Body Doors'])
+        ..bodySeats          = _parseInt(e['Body Seats']);
     }).toList();
 
     await _isar.writeTxn(() async {

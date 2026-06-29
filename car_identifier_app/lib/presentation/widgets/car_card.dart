@@ -21,20 +21,13 @@ class CarCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
         child: Row(
           children: [
-            // Year badge
+            // Logo placeholder — will be replaced with car logo later
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              width: 52,
+              height: 52,
               decoration: BoxDecoration(
                 color: AppColors.background,
                 borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                car.year.toString(),
-                style: const TextStyle(
-                  color: AppColors.accent,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -56,16 +49,15 @@ class CarCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      if (car.vehicleSize != null) ...[
+                      if (car.bodyType != null)
                         Text(
-                          car.vehicleSize!,
+                          car.bodyType!,
                           style: const TextStyle(
                             color: AppColors.textSecondary,
                             fontSize: 13,
                           ),
                         ),
-                      ],
-                      if (car.vehicleSize != null && car.engineCylinders != null)
+                      if (car.bodyType != null && car.trimDescription != null)
                         const Text(
                           '  ·  ',
                           style: TextStyle(
@@ -73,12 +65,16 @@ class CarCard extends StatelessWidget {
                             fontSize: 13,
                           ),
                         ),
-                      if (car.engineCylinders != null)
-                        Text(
-                          '${car.engineCylinders} cyl',
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
-                            fontSize: 13,
+                      if (car.trimDescription != null)
+                        Flexible(
+                          child: Text(
+                            car.trimDescription!,
+                            style: const TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: 13,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                     ],
@@ -87,8 +83,11 @@ class CarCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right_rounded,
-                color: AppColors.textSecondary, size: 22),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.textSecondary,
+              size: 22,
+            ),
           ],
         ),
       ),

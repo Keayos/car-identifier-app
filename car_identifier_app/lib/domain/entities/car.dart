@@ -1,27 +1,37 @@
 class Car {
   final int id;
   final String makeModel;
-  final int year;
+  final String? make;
+  final String? model;
+  final String? trimDescription;
   final String? engineFuelType;
   final double? engineHp;
-  final int? engineCylinders;
-  final String? transmissionType;
-  final String? drivenWheels;
-  final int? numberOfDoors;
-  final String? vehicleSize;
+  final String? engineCylinders;
+  final double? engineSize;
+  final int? engineRpm;
+  final String? engineDriveType;
+  final String? engineTransmission;
+  final String? bodyType;
+  final int? bodyDoors;
+  final int? bodySeats;
 
   const Car({
     required this.id,
     required this.makeModel,
-    required this.year,
+    this.make,
+    this.model,
+    this.trimDescription,
     this.engineFuelType,
     this.engineHp,
     this.engineCylinders,
-    this.transmissionType,
-    this.drivenWheels,
-    this.numberOfDoors,
-    this.vehicleSize,
+    this.engineSize,
+    this.engineRpm,
+    this.engineDriveType,
+    this.engineTransmission,
+    this.bodyType,
+    this.bodyDoors,
+    this.bodySeats,
   });
 
-  String get displayName => '$year $makeModel';
+  String get displayName => makeModel;
 }

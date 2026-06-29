@@ -9,20 +9,25 @@ class CarModel {
   @Index(type: IndexType.value, caseSensitive: false)
   late String makeModel;
 
-  late int year;
+  String? make;
+  String? model;
+  String? trimDescription;
 
   String? engineFuelType;
   double? engineHp;
-  int? engineCylinders;
+  String? engineCylinders;
+  double? engineSize;
+  int? engineRpm;
 
   @Index(type: IndexType.value, caseSensitive: false)
-  String? transmissionType;
+  String? engineDriveType;
 
   @Index(type: IndexType.value, caseSensitive: false)
-  String? drivenWheels;
-
-  int? numberOfDoors;
+  String? engineTransmission;
 
   @Index(type: IndexType.value, caseSensitive: false)
-  String? vehicleSize;
+  String? bodyType;
+
+  int? bodyDoors;
+  int? bodySeats;
 }

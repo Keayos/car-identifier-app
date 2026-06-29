@@ -29,13 +29,18 @@ class CarRepositoryImpl implements CarRepository {
   Car _toDomain(CarModel m) => Car(
         id: m.id,
         makeModel: m.makeModel,
-        year: m.year,
+        make: m.make,
+        model: m.model,
+        trimDescription: m.trimDescription,
         engineFuelType: m.engineFuelType,
         engineHp: m.engineHp,
         engineCylinders: m.engineCylinders,
-        transmissionType: m.transmissionType,
-        drivenWheels: m.drivenWheels,
-        numberOfDoors: m.numberOfDoors,
-        vehicleSize: m.vehicleSize,
+        engineSize: m.engineSize,
+        engineRpm: m.engineRpm,
+        engineDriveType: m.engineDriveType,
+        engineTransmission: m.engineTransmission,
+        bodyType: m.bodyType,
+        bodyDoors: m.bodyDoors,
+        bodySeats: m.bodySeats,
       );
 }

@@ -33,9 +33,14 @@ class DetailScreen extends StatelessWidget {
             _sectionTitle('General'),
             const SizedBox(height: 12),
             _specRow('Car Model', car.makeModel),
-            _specRow('Year', car.year.toString()),
-            if (car.vehicleSize != null)
-              _specRow('Vehicle Size', car.vehicleSize!),
+            if (car.trimDescription != null)
+              _specRow('Trim', car.trimDescription!),
+            if (car.bodyType != null)
+              _specRow('Body Type', car.bodyType!),
+            if (car.bodyDoors != null)
+              _specRow('Doors', car.bodyDoors!.toString()),
+            if (car.bodySeats != null)
+              _specRow('Seats', car.bodySeats!.toString()),
 
             const SizedBox(height: 24),
             _sectionTitle('Engine'),
@@ -46,16 +51,18 @@ class DetailScreen extends StatelessWidget {
               _specRow('Horsepower', '${car.engineHp!.toStringAsFixed(0)} HP'),
             if (car.engineCylinders != null)
               _specRow('Cylinders', car.engineCylinders!.toString()),
+            if (car.engineSize != null)
+              _specRow('Engine Size', '${car.engineSize!.toStringAsFixed(1)} L'),
+            if (car.engineRpm != null)
+              _specRow('RPM', car.engineRpm!.toString()),
 
             const SizedBox(height: 24),
             _sectionTitle('Drivetrain'),
             const SizedBox(height: 12),
-            if (car.transmissionType != null)
-              _specRow('Transmission', car.transmissionType!),
-            if (car.drivenWheels != null)
-              _specRow('Driven Wheels', car.drivenWheels!),
-            if (car.numberOfDoors != null)
-              _specRow('Doors', car.numberOfDoors!.toString()),
+            if (car.engineTransmission != null)
+              _specRow('Transmission', car.engineTransmission!),
+            if (car.engineDriveType != null)
+              _specRow('Drive Type', car.engineDriveType!),
           ],
         ),
       ),
