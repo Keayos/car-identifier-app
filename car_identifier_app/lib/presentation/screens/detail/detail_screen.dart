@@ -30,27 +30,9 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Hero placeholder
-            Container(
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.divider),
-              ),
-              child: const Center(
-                child: Icon(Icons.directions_car_rounded,
-                    size: 80, color: AppColors.accent),
-              ),
-            ),
-
-            const SizedBox(height: 24),
-
             _sectionTitle('General'),
             const SizedBox(height: 12),
-            _specRow('Make', car.make),
-            _specRow('Model', car.model),
+            _specRow('Car Model', car.makeModel),
             _specRow('Year', car.year.toString()),
             if (car.vehicleSize != null)
               _specRow('Vehicle Size', car.vehicleSize!),

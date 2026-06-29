@@ -1,7 +1,6 @@
 class Car {
   final int id;
-  final String make;
-  final String model;
+  final String makeModel;
   final int year;
   final String? engineFuelType;
   final double? engineHp;
@@ -13,8 +12,7 @@ class Car {
 
   const Car({
     required this.id,
-    required this.make,
-    required this.model,
+    required this.makeModel,
     required this.year,
     this.engineFuelType,
     this.engineHp,
@@ -25,5 +23,5 @@ class Car {
     this.vehicleSize,
   });
 
-  String get displayName => '$year $make $model';
+  String get displayName => '$year $makeModel';
 }

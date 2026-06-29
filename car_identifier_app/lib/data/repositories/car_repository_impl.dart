@@ -28,8 +28,7 @@ class CarRepositoryImpl implements CarRepository {
 
   Car _toDomain(CarModel m) => Car(
         id: m.id,
-        make: m.make,
-        model: m.model,
+        makeModel: m.makeModel,
         year: m.year,
         engineFuelType: m.engineFuelType,
         engineHp: m.engineHp,

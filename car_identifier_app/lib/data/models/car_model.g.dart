@@ -37,33 +37,28 @@ const CarModelSchema = CollectionSchema(
       name: r'engineHp',
       type: IsarType.double,
     ),
-    r'make': PropertySchema(
+    r'makeModel': PropertySchema(
       id: 4,
-      name: r'make',
-      type: IsarType.string,
-    ),
-    r'model': PropertySchema(
-      id: 5,
-      name: r'model',
+      name: r'makeModel',
       type: IsarType.string,
     ),
     r'numberOfDoors': PropertySchema(
-      id: 6,
+      id: 5,
       name: r'numberOfDoors',
       type: IsarType.long,
     ),
     r'transmissionType': PropertySchema(
-      id: 7,
+      id: 6,
       name: r'transmissionType',
       type: IsarType.string,
     ),
     r'vehicleSize': PropertySchema(
-      id: 8,
+      id: 7,
       name: r'vehicleSize',
       type: IsarType.string,
     ),
     r'year': PropertySchema(
-      id: 9,
+      id: 8,
       name: r'year',
       type: IsarType.long,
     )
@@ -74,27 +69,14 @@ const CarModelSchema = CollectionSchema(
   deserializeProp: _carModelDeserializeProp,
   idName: r'id',
   indexes: {
-    r'make': IndexSchema(
-      id: 5140600661486122335,
-      name: r'make',
+    r'makeModel': IndexSchema(
+      id: 8506206695741287717,
+      name: r'makeModel',
       unique: false,
       replace: false,
       properties: [
         IndexPropertySchema(
-          name: r'make',
-          type: IndexType.value,
-          caseSensitive: false,
-        )
-      ],
-    ),
-    r'model': IndexSchema(
-      id: 8229337662361542422,
-      name: r'model',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'model',
+          name: r'makeModel',
           type: IndexType.value,
           caseSensitive: false,
         )
@@ -166,8 +148,7 @@ int _carModelEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.make.length * 3;
-  bytesCount += 3 + object.model.length * 3;
+  bytesCount += 3 + object.makeModel.length * 3;
   {
     final value = object.transmissionType;
     if (value != null) {
@@ -193,12 +174,11 @@ void _carModelSerialize(
   writer.writeLong(offsets[1], object.engineCylinders);
   writer.writeString(offsets[2], object.engineFuelType);
   writer.writeDouble(offsets[3], object.engineHp);
-  writer.writeString(offsets[4], object.make);
-  writer.writeString(offsets[5], object.model);
-  writer.writeLong(offsets[6], object.numberOfDoors);
-  writer.writeString(offsets[7], object.transmissionType);
-  writer.writeString(offsets[8], object.vehicleSize);
-  writer.writeLong(offsets[9], object.year);
+  writer.writeString(offsets[4], object.makeModel);
+  writer.writeLong(offsets[5], object.numberOfDoors);
+  writer.writeString(offsets[6], object.transmissionType);
+  writer.writeString(offsets[7], object.vehicleSize);
+  writer.writeLong(offsets[8], object.year);
 }
 
 CarModel _carModelDeserialize(
@@ -213,12 +193,11 @@ CarModel _carModelDeserialize(
   object.engineFuelType = reader.readStringOrNull(offsets[2]);
   object.engineHp = reader.readDoubleOrNull(offsets[3]);
   object.id = id;
-  object.make = reader.readString(offsets[4]);
-  object.model = reader.readString(offsets[5]);
-  object.numberOfDoors = reader.readLongOrNull(offsets[6]);
-  object.transmissionType = reader.readStringOrNull(offsets[7]);
-  object.vehicleSize = reader.readStringOrNull(offsets[8]);
-  object.year = reader.readLong(offsets[9]);
+  object.makeModel = reader.readString(offsets[4]);
+  object.numberOfDoors = reader.readLongOrNull(offsets[5]);
+  object.transmissionType = reader.readStringOrNull(offsets[6]);
+  object.vehicleSize = reader.readStringOrNull(offsets[7]);
+  object.year = reader.readLong(offsets[8]);
   return object;
 }
 
@@ -240,14 +219,12 @@ P _carModelDeserializeProp<P>(
     case 4:
       return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readString(offset)) as P;
-    case 6:
       return (reader.readLongOrNull(offset)) as P;
+    case 6:
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
-    case 9:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -273,18 +250,10 @@ extension CarModelQueryWhereSort on QueryBuilder<CarModel, CarModel, QWhere> {
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhere> anyMake() {
+  QueryBuilder<CarModel, CarModel, QAfterWhere> anyMakeModel() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'make'),
-      );
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhere> anyModel() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'model'),
+        const IndexWhereClause.any(indexName: r'makeModel'),
       );
     });
   }
@@ -380,271 +349,136 @@ extension CarModelQueryWhere on QueryBuilder<CarModel, CarModel, QWhereClause> {
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeEqualTo(String make) {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeModelEqualTo(
+      String makeModel) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'make',
-        value: [make],
+        indexName: r'makeModel',
+        value: [makeModel],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeNotEqualTo(
-      String make) {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeModelNotEqualTo(
+      String makeModel) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'make',
+              indexName: r'makeModel',
               lower: [],
-              upper: [make],
+              upper: [makeModel],
               includeUpper: false,
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'make',
-              lower: [make],
+              indexName: r'makeModel',
+              lower: [makeModel],
               includeLower: false,
               upper: [],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'make',
-              lower: [make],
+              indexName: r'makeModel',
+              lower: [makeModel],
               includeLower: false,
               upper: [],
             ))
             .addWhereClause(IndexWhereClause.between(
-              indexName: r'make',
+              indexName: r'makeModel',
               lower: [],
-              upper: [make],
+              upper: [makeModel],
               includeUpper: false,
             ));
       }
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeGreaterThan(
-    String make, {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeModelGreaterThan(
+    String makeModel, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'make',
-        lower: [make],
+        indexName: r'makeModel',
+        lower: [makeModel],
         includeLower: include,
         upper: [],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeLessThan(
-    String make, {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeModelLessThan(
+    String makeModel, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'make',
+        indexName: r'makeModel',
         lower: [],
-        upper: [make],
+        upper: [makeModel],
         includeUpper: include,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeBetween(
-    String lowerMake,
-    String upperMake, {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeModelBetween(
+    String lowerMakeModel,
+    String upperMakeModel, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'make',
-        lower: [lowerMake],
+        indexName: r'makeModel',
+        lower: [lowerMakeModel],
         includeLower: includeLower,
-        upper: [upperMake],
+        upper: [upperMakeModel],
         includeUpper: includeUpper,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeStartsWith(
-      String MakePrefix) {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeModelStartsWith(
+      String MakeModelPrefix) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'make',
-        lower: [MakePrefix],
-        upper: ['$MakePrefix\u{FFFFF}'],
+        indexName: r'makeModel',
+        lower: [MakeModelPrefix],
+        upper: ['$MakeModelPrefix\u{FFFFF}'],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIsEmpty() {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeModelIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'make',
+        indexName: r'makeModel',
         value: [''],
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIsNotEmpty() {
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeModelIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
             .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'make',
+              indexName: r'makeModel',
               upper: [''],
             ))
             .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'make',
+              indexName: r'makeModel',
               lower: [''],
             ));
       } else {
         return query
             .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'make',
+              indexName: r'makeModel',
               lower: [''],
             ))
             .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'make',
-              upper: [''],
-            ));
-      }
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> modelEqualTo(
-      String model) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'model',
-        value: [model],
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> modelNotEqualTo(
-      String model) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'model',
-              lower: [],
-              upper: [model],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'model',
-              lower: [model],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'model',
-              lower: [model],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'model',
-              lower: [],
-              upper: [model],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> modelGreaterThan(
-    String model, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'model',
-        lower: [model],
-        includeLower: include,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> modelLessThan(
-    String model, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'model',
-        lower: [],
-        upper: [model],
-        includeUpper: include,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> modelBetween(
-    String lowerModel,
-    String upperModel, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'model',
-        lower: [lowerModel],
-        includeLower: includeLower,
-        upper: [upperModel],
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> modelStartsWith(
-      String ModelPrefix) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'model',
-        lower: [ModelPrefix],
-        upper: ['$ModelPrefix\u{FFFFF}'],
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> modelIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'model',
-        value: [''],
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterWhereClause> modelIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'model',
-              upper: [''],
-            ))
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'model',
-              lower: [''],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'model',
-              lower: [''],
-            ))
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'model',
+              indexName: r'makeModel',
               upper: [''],
             ));
       }
@@ -1634,20 +1468,20 @@ extension CarModelQueryFilter
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeEqualTo(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'make',
+        property: r'makeModel',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeGreaterThan(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1655,14 +1489,14 @@ extension CarModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'make',
+        property: r'makeModel',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeLessThan(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1670,14 +1504,14 @@ extension CarModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'make',
+        property: r'makeModel',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeBetween(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -1686,7 +1520,7 @@ extension CarModelQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'make',
+        property: r'makeModel',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1696,199 +1530,70 @@ extension CarModelQueryFilter
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeStartsWith(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'make',
+        property: r'makeModel',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeEndsWith(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'make',
+        property: r'makeModel',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeContains(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'make',
+        property: r'makeModel',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeMatches(
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'make',
+        property: r'makeModel',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeIsEmpty() {
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'make',
+        property: r'makeModel',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeIsNotEmpty() {
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition>
+      makeModelIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'make',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'model',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'model',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'model',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'model',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'model',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'model',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'model',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'model',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'model',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> modelIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'model',
+        property: r'makeModel',
         value: '',
       ));
     });
@@ -2378,27 +2083,15 @@ extension CarModelQuerySortBy on QueryBuilder<CarModel, CarModel, QSortBy> {
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMake() {
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMakeModel() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'make', Sort.asc);
+      return query.addSortBy(r'makeModel', Sort.asc);
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMakeDesc() {
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMakeModelDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'make', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByModel() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'model', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByModelDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'model', Sort.desc);
+      return query.addSortBy(r'makeModel', Sort.desc);
     });
   }
 
@@ -2513,27 +2206,15 @@ extension CarModelQuerySortThenBy
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMake() {
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMakeModel() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'make', Sort.asc);
+      return query.addSortBy(r'makeModel', Sort.asc);
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMakeDesc() {
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMakeModelDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'make', Sort.desc);
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByModel() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'model', Sort.asc);
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByModelDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'model', Sort.desc);
+      return query.addSortBy(r'makeModel', Sort.desc);
     });
   }
 
@@ -2615,17 +2296,10 @@ extension CarModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<CarModel, CarModel, QDistinct> distinctByMake(
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByMakeModel(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'make', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<CarModel, CarModel, QDistinct> distinctByModel(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'model', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'makeModel', caseSensitive: caseSensitive);
     });
   }
 
@@ -2689,15 +2363,9 @@ extension CarModelQueryProperty
     });
   }
 
-  QueryBuilder<CarModel, String, QQueryOperations> makeProperty() {
+  QueryBuilder<CarModel, String, QQueryOperations> makeModelProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'make');
-    });
-  }
-
-  QueryBuilder<CarModel, String, QQueryOperations> modelProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'model');
+      return query.addPropertyName(r'makeModel');
     });
   }
 

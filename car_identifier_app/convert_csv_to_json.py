@@ -45,18 +45,16 @@ def convert():
         reader = csv.DictReader(f)
 
         for row in reader:
-            make  = clean_str(row.get('Make', ''))
-            model = clean_str(row.get('Model', ''))
-            year  = clean_int(row.get('Year', ''))
+            make_model = clean_str(row.get('Make Model', ''))
+            year       = clean_int(row.get('Year', ''))
 
-            # Skip rows missing the three required fields
-            if not make or not model or year is None:
+            # Skip rows missing the two required fields
+            if not make_model or year is None:
                 skipped += 1
                 continue
 
             cars.append({
-                'Make':                make,
-                'Model':               model,
+                'Make Model':          make_model,
                 'Year':                year,
                 'Engine Fuel Type':    clean_str(row.get('Engine Fuel Type', '')),
                 'Engine HP':           clean_float(row.get('Engine HP', '')),
@@ -74,7 +72,7 @@ def convert():
 
     print(f'Done! {len(cars)} cars written to {OUTPUT_FILE}')
     if skipped:
-        print(f'Skipped {skipped} rows with missing Make/Model/Year.')
+        print(f'Skipped {skipped} rows with missing Make Model/Year.')
 
 if __name__ == '__main__':
     convert()

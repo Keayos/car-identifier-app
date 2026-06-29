@@ -16,8 +16,7 @@ class AssetSeeder {
 
     final cars = jsonList.map((e) {
       return CarModel()
-        ..make = (e['Make'] ?? '').toString().trim()
-        ..model = (e['Model'] ?? '').toString().trim()
+        ..makeModel = (e['Make Model'] ?? '').toString().trim()
         ..year = _parseInt(e['Year'])
         ..engineFuelType = _str(e['Engine Fuel Type'])
         ..engineHp = _parseDouble(e['Engine HP'])

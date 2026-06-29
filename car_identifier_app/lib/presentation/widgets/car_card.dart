@@ -44,7 +44,7 @@ class CarCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${car.make} ${car.model}',
+                    car.makeModel,
                     style: const TextStyle(
                       color: AppColors.textPrimary,
                       fontSize: 17,

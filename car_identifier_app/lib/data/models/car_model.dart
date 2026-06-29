@@ -7,10 +7,7 @@ class CarModel {
   Id id = Isar.autoIncrement;
 
   @Index(type: IndexType.value, caseSensitive: false)
-  late String make;
-
-  @Index(type: IndexType.value, caseSensitive: false)
-  late String model;
+  late String makeModel;
 
   late int year;
 
