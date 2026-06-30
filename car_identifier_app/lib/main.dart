@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'data/models/car_model.dart';
 import 'data/datasources/local/asset_seeder.dart';
@@ -12,6 +13,8 @@ late Isar isar;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: '.env');
 
   final dir = await getApplicationDocumentsDirectory();
 

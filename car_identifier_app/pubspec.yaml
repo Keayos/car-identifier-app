@@ -15,6 +15,8 @@ dependencies:
   flutter_riverpod: ^2.4.0
   path_provider: ^2.0.0
   image_picker: ^1.0.7
+  flutter_dotenv: ^5.1.0
+  http: ^1.2.0
 
   cupertino_icons: ^1.0.8
 
@@ -31,4 +33,5 @@ flutter:
   assets:
     - assets/data/cars.json
     - assets/logos/
+    - .env
   uses-material-design: true
