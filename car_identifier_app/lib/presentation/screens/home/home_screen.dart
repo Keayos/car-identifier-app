@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../providers/search_provider.dart';
 import '../../widgets/car_card.dart';
 import '../detail/detail_screen.dart';
+import '../recognition/recognition_result_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +18,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _controller = TextEditingController();
+  final _picker = ImagePicker();
   Timer? _debounce;
 
   @override
@@ -29,6 +33,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _debounce = Timer(const Duration(milliseconds: 300), () {
       ref.read(searchQueryProvider.notifier).state = value;
     });
+  }
+
+  Future<void> _openCamera() async {
+    final XFile? photo = await _picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 85,
+    );
+
+    if (photo != null && mounted) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => RecognitionResultScreen(image: File(photo.path)),
+        ),
+      );
+    }
   }
 
   @override
@@ -47,6 +66,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.camera_alt_outlined,
+                color: AppColors.textPrimary),
+            tooltip: 'Identify a car',
+            onPressed: _openCamera,
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: Column(
         children: [
