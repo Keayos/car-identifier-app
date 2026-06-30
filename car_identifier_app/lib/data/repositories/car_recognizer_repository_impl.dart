@@ -1,5 +1,6 @@
 import 'dart:io';
 import '../../domain/entities/car_recognition_result.dart';
+import '../../domain/entities/car.dart';
 import '../../domain/repositories/car_recognizer_repository.dart';
 import '../datasources/local/isar_car_datasource.dart';
 import '../datasources/remote/openrouter_datasource.dart';
@@ -28,14 +29,16 @@ class CarRecognizerRepositoryImpl implements CarRecognizerRepository {
     final localMatches = await _localDatasource.search(query);
 
     final repo = CarRepositoryImpl(_localDatasource);
-    final matchedCar = localMatches.isNotEmpty
-        ? await repo.getCarById(localMatches.first.id)
-        : null;
+    final List<Car> matchedCars = [];
+    for (final m in localMatches) {
+      final car = await repo.getCarById(m.id);
+      if (car != null) matchedCars.add(car);
+    }
 
     return CarRecognitionResult(
       recognizedMake: make,
       recognizedModel: model,
-      matchedCar: matchedCar,
+      matchedCars: matchedCars,
     );
   }
 }

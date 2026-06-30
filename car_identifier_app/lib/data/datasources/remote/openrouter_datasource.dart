@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 /// the next one on timeout or error.
 class OpenRouterDatasource {
   static const _endpoint = 'https://openrouter.ai/api/v1/chat/completions';
-  static const _timeout = Duration(seconds: 12);
+  static const _timeout = Duration(seconds: 15);
 
   static const _modelChain = [
     'google/gemma-4-31b-it:free',

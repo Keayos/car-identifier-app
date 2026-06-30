@@ -2,17 +2,30 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../domain/entities/car.dart';
 import '../../../domain/entities/car_recognition_result.dart';
 import '../../providers/recognition_provider.dart';
+import '../../widgets/car_card.dart';
+import '../detail/detail_screen.dart';
 
-class RecognitionResultScreen extends ConsumerWidget {
+class RecognitionResultScreen extends ConsumerStatefulWidget {
   final File image;
 
   const RecognitionResultScreen({super.key, required this.image});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final resultAsync = ref.watch(carRecognitionProvider(image));
+  ConsumerState<RecognitionResultScreen> createState() =>
+      _RecognitionResultScreenState();
+}
+
+class _RecognitionResultScreenState
+    extends ConsumerState<RecognitionResultScreen> {
+  int? _selectedDoors;
+  int? _selectedSeats;
+
+  @override
+  Widget build(BuildContext context) {
+    final resultAsync = ref.watch(carRecognitionProvider(widget.image));
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -38,7 +51,7 @@ class RecognitionResultScreen extends ConsumerWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(14),
               child: Image.file(
-                image,
+                widget.image,
                 width: double.infinity,
                 height: 220,
                 fit: BoxFit.cover,
@@ -91,7 +104,7 @@ class RecognitionResultScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              data: (result) => _buildResult(result),
+              data: (result) => _buildResult(context, result),
             ),
           ],
         ),
@@ -99,103 +112,150 @@ class RecognitionResultScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildResult(CarRecognitionResult result) {
+  Widget _buildResult(BuildContext context, CarRecognitionResult result) {
     if (!result.hasMatch) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.divider),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.info_outline,
-                    color: AppColors.textSecondary, size: 18),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Not found in database. AI guess: ${result.displayGuess}',
-                    style: const TextStyle(
-                        color: AppColors.textSecondary, fontSize: 13),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-
-    final car = result.matchedCar!;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _sectionTitle('General'),
-        const SizedBox(height: 12),
-        _specRow('Car Model', car.makeModel),
-        if (car.trimDescription != null)
-          _specRow('Trim', car.trimDescription!),
-        if (car.bodyType != null) _specRow('Body Type', car.bodyType!),
-        if (car.bodyDoors != null) _specRow('Doors', car.bodyDoors!.toString()),
-        if (car.bodySeats != null) _specRow('Seats', car.bodySeats!.toString()),
-
-        const SizedBox(height: 24),
-        _sectionTitle('Engine'),
-        const SizedBox(height: 12),
-        if (car.engineFuelType != null)
-          _specRow('Fuel Type', car.engineFuelType!),
-        if (car.engineHp != null)
-          _specRow('Horsepower', '${car.engineHp!.toStringAsFixed(0)} HP'),
-        if (car.engineCylinders != null)
-          _specRow('Cylinders', car.engineCylinders!),
-        if (car.engineSize != null)
-          _specRow('Engine Size', '${car.engineSize!.toStringAsFixed(1)} L'),
-        if (car.engineRpm != null) _specRow('RPM', car.engineRpm!.toString()),
-
-        const SizedBox(height: 24),
-        _sectionTitle('Drivetrain'),
-        const SizedBox(height: 12),
-        if (car.engineTransmission != null)
-          _specRow('Transmission', car.engineTransmission!),
-        if (car.engineDriveType != null)
-          _specRow('Drive Type', car.engineDriveType!),
-      ],
-    );
-  }
-
-  Widget _sectionTitle(String title) => Text(
-        title,
-        style: const TextStyle(
-          color: AppColors.accent,
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.8,
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.divider),
         ),
-      );
-
-  Widget _specRow(String label, String value) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label,
-                style: const TextStyle(
-                    color: AppColors.textSecondary, fontSize: 14)),
-            Flexible(
+            const Icon(Icons.info_outline,
+                color: AppColors.textSecondary, size: 18),
+            const SizedBox(width: 8),
+            Expanded(
               child: Text(
-                value,
+                'Not found in database. AI guess: ${result.displayGuess}',
                 style: const TextStyle(
-                    color: AppColors.textPrimary,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500),
-                textAlign: TextAlign.end,
+                    color: AppColors.textSecondary, fontSize: 13),
               ),
             ),
           ],
         ),
       );
+    }
+
+    final cars = result.matchedCars;
+    final doorOptions = cars
+        .map((c) => c.bodyDoors)
+        .whereType<int>()
+        .toSet()
+        .toList()
+      ..sort();
+    final seatOptions = cars
+        .map((c) => c.bodySeats)
+        .whereType<int>()
+        .toSet()
+        .toList()
+      ..sort();
+
+    final filtered = cars.where((c) {
+      final doorsOk = _selectedDoors == null || c.bodyDoors == _selectedDoors;
+      final seatsOk = _selectedSeats == null || c.bodySeats == _selectedSeats;
+      return doorsOk && seatsOk;
+    }).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          result.displayGuess,
+          style: const TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        Row(
+          children: [
+            Expanded(
+              child: _buildDropdown<int>(
+                label: 'Doors',
+                value: _selectedDoors,
+                options: doorOptions,
+                onChanged: (v) => setState(() => _selectedDoors = v),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildDropdown<int>(
+                label: 'Seats',
+                value: _selectedSeats,
+                options: seatOptions,
+                onChanged: (v) => setState(() => _selectedSeats = v),
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 24),
+
+        if (_selectedDoors != null && _selectedSeats != null) ...[
+          Text(
+            filtered.isEmpty
+                ? 'No matching cars.'
+                : '${filtered.length} matching option${filtered.length == 1 ? '' : 's'}',
+            style: const TextStyle(
+                color: AppColors.textSecondary, fontSize: 13),
+          ),
+          const SizedBox(height: 12),
+          ...filtered.map(
+            (car) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: CarCard(
+                car: car,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => DetailScreen(car: car)),
+                ),
+              ),
+            ),
+          ),
+        ] else
+          const Text(
+            'Select doors and seats to see matching options.',
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildDropdown<T>({
+    required String label,
+    required T? value,
+    required List<T> options,
+    required ValueChanged<T?> onChanged,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.divider),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<T>(
+          value: value,
+          isExpanded: true,
+          dropdownColor: AppColors.surface,
+          hint: Text(label,
+              style: const TextStyle(color: AppColors.textSecondary)),
+          style: const TextStyle(color: AppColors.textPrimary),
+          icon: const Icon(Icons.keyboard_arrow_down,
+              color: AppColors.textSecondary),
+          items: options
+              .map((o) => DropdownMenuItem<T>(
+                    value: o,
+                    child: Text('$o $label'),
+                  ))
+              .toList(),
+          onChanged: onChanged,
+        ),
+      ),
+    );
+  }
 }
