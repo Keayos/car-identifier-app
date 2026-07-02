@@ -1,4 +1,5 @@
 import '../../domain/entities/car.dart';
+import '../../domain/entities/make_group.dart';
 import '../../domain/repositories/car_repository.dart';
 import '../datasources/local/isar_car_datasource.dart';
 import '../models/car_model.dart';
@@ -26,9 +27,36 @@ class CarRepositoryImpl implements CarRepository {
     return count > 0;
   }
 
+  @override
+  Future<List<MakeGroup>> getMakeGroups() async {
+    final all = await _datasource.getAll();
+    final Map<int, MakeGroup> groups = {};
+
+    for (final m in all) {
+      if (m.makeId == null || m.make == null) continue;
+      final existing = groups[m.makeId];
+      groups[m.makeId!] = MakeGroup(
+        makeId: m.makeId!,
+        make: m.make!,
+        modelCount: (existing?.modelCount ?? 0) + 1,
+      );
+    }
+
+    final list = groups.values.toList()
+      ..sort((a, b) => a.make.compareTo(b.make));
+    return list;
+  }
+
+  @override
+  Future<List<Car>> getCarsByMakeId(int makeId) async {
+    final models = await _datasource.getByMakeId(makeId);
+    return models.map(_toDomain).toList();
+  }
+
   Car _toDomain(CarModel m) => Car(
         id: m.id,
         makeModel: m.makeModel,
+        makeId: m.makeId,
         make: m.make,
         model: m.model,
         trimDescription: m.trimDescription,

@@ -20,6 +20,21 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
 
+subprojects {
+    if (name == "app") return@subprojects
+    val applyCompileSdk = {
+        val androidExt = extensions.findByType<com.android.build.gradle.BaseExtension>()
+        if (androidExt != null) {
+            androidExt.compileSdkVersion(35)
+        }
+    }
+    if (state.executed) {
+        applyCompileSdk()
+    } else {
+        afterEvaluate { applyCompileSdk() }
+    }
+}
+
 gradle.projectsEvaluated {
     subprojects {
         extensions.findByType<com.android.build.gradle.BaseExtension>()?.apply {

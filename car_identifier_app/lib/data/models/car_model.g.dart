@@ -72,18 +72,23 @@ const CarModelSchema = CollectionSchema(
       name: r'make',
       type: IsarType.string,
     ),
-    r'makeModel': PropertySchema(
+    r'makeId': PropertySchema(
       id: 11,
+      name: r'makeId',
+      type: IsarType.long,
+    ),
+    r'makeModel': PropertySchema(
+      id: 12,
       name: r'makeModel',
       type: IsarType.string,
     ),
     r'model': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'model',
       type: IsarType.string,
     ),
     r'trimDescription': PropertySchema(
-      id: 13,
+      id: 14,
       name: r'trimDescription',
       type: IsarType.string,
     )
@@ -102,6 +107,19 @@ const CarModelSchema = CollectionSchema(
       properties: [
         IndexPropertySchema(
           name: r'makeModel',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    ),
+    r'makeId': IndexSchema(
+      id: -3973630332308290205,
+      name: r'makeId',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'makeId',
           type: IndexType.value,
           caseSensitive: false,
         )
@@ -230,9 +248,10 @@ void _carModelSerialize(
   writer.writeDouble(offsets[8], object.engineSize);
   writer.writeString(offsets[9], object.engineTransmission);
   writer.writeString(offsets[10], object.make);
-  writer.writeString(offsets[11], object.makeModel);
-  writer.writeString(offsets[12], object.model);
-  writer.writeString(offsets[13], object.trimDescription);
+  writer.writeLong(offsets[11], object.makeId);
+  writer.writeString(offsets[12], object.makeModel);
+  writer.writeString(offsets[13], object.model);
+  writer.writeString(offsets[14], object.trimDescription);
 }
 
 CarModel _carModelDeserialize(
@@ -254,9 +273,10 @@ CarModel _carModelDeserialize(
   object.engineTransmission = reader.readStringOrNull(offsets[9]);
   object.id = id;
   object.make = reader.readStringOrNull(offsets[10]);
-  object.makeModel = reader.readString(offsets[11]);
-  object.model = reader.readStringOrNull(offsets[12]);
-  object.trimDescription = reader.readStringOrNull(offsets[13]);
+  object.makeId = reader.readLongOrNull(offsets[11]);
+  object.makeModel = reader.readString(offsets[12]);
+  object.model = reader.readStringOrNull(offsets[13]);
+  object.trimDescription = reader.readStringOrNull(offsets[14]);
   return object;
 }
 
@@ -290,10 +310,12 @@ P _carModelDeserializeProp<P>(
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 12:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 13:
+      return (reader.readStringOrNull(offset)) as P;
+    case 14:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -323,6 +345,14 @@ extension CarModelQueryWhereSort on QueryBuilder<CarModel, CarModel, QWhere> {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         const IndexWhereClause.any(indexName: r'makeModel'),
+      );
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhere> anyMakeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'makeId'),
       );
     });
   }
@@ -551,6 +581,116 @@ extension CarModelQueryWhere on QueryBuilder<CarModel, CarModel, QWhereClause> {
               upper: [''],
             ));
       }
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'makeId',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'makeId',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIdEqualTo(
+      int? makeId) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'makeId',
+        value: [makeId],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIdNotEqualTo(
+      int? makeId) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'makeId',
+              lower: [],
+              upper: [makeId],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'makeId',
+              lower: [makeId],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'makeId',
+              lower: [makeId],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'makeId',
+              lower: [],
+              upper: [makeId],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIdGreaterThan(
+    int? makeId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'makeId',
+        lower: [makeId],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIdLessThan(
+    int? makeId, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'makeId',
+        lower: [],
+        upper: [makeId],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterWhereClause> makeIdBetween(
+    int? lowerMakeId,
+    int? upperMakeId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'makeId',
+        lower: [lowerMakeId],
+        includeLower: includeLower,
+        upper: [upperMakeId],
+        includeUpper: includeUpper,
+      ));
     });
   }
 
@@ -2357,6 +2497,75 @@ extension CarModelQueryFilter
     });
   }
 
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'makeId',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'makeId',
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeIdEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'makeId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'makeId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'makeId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'makeId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<CarModel, CarModel, QAfterFilterCondition> makeModelEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -2929,6 +3138,18 @@ extension CarModelQuerySortBy on QueryBuilder<CarModel, CarModel, QSortBy> {
     });
   }
 
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMakeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'makeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMakeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'makeId', Sort.desc);
+    });
+  }
+
   QueryBuilder<CarModel, CarModel, QAfterSortBy> sortByMakeModel() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'makeModel', Sort.asc);
@@ -3113,6 +3334,18 @@ extension CarModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMakeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'makeId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMakeIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'makeId', Sort.desc);
+    });
+  }
+
   QueryBuilder<CarModel, CarModel, QAfterSortBy> thenByMakeModel() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'makeModel', Sort.asc);
@@ -3228,6 +3461,12 @@ extension CarModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<CarModel, CarModel, QDistinct> distinctByMakeId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'makeId');
+    });
+  }
+
   QueryBuilder<CarModel, CarModel, QDistinct> distinctByMakeModel(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -3323,6 +3562,12 @@ extension CarModelQueryProperty
   QueryBuilder<CarModel, String?, QQueryOperations> makeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'make');
+    });
+  }
+
+  QueryBuilder<CarModel, int?, QQueryOperations> makeIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'makeId');
     });
   }
 

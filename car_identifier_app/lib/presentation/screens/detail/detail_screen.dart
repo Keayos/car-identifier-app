@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../domain/entities/car.dart';
+import '../../widgets/dubizzle_search_button.dart';
 
 class DetailScreen extends StatelessWidget {
   final Car car;
@@ -63,6 +64,9 @@ class DetailScreen extends StatelessWidget {
               _specRow('Transmission', car.engineTransmission!),
             if (car.engineDriveType != null)
               _specRow('Drive Type', car.engineDriveType!),
+
+            const SizedBox(height: 32),
+            DubizzleSearchButton(query: '${car.make ?? ''} ${car.model ?? ''}'.trim()),
           ],
         ),
       ),

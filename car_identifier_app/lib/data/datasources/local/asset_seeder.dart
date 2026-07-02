@@ -19,6 +19,7 @@ class AssetSeeder {
     final cars = jsonList.map((e) {
       return CarModel()
         ..makeModel          = (e['Make Model'] ?? '').toString().trim()
+        ..makeId             = _parseIntOrNull(e['Make Id'])
         ..make               = _str(e['Make'])
         ..model              = _str(e['Model'])
         ..trimDescription    = _str(e['Trim Description'])
@@ -45,6 +46,12 @@ class AssetSeeder {
     if (v == null) return null;
     final s = v.toString().trim();
     return s.isEmpty ? null : s;
+  }
+
+  int? _parseIntOrNull(dynamic v) {
+    if (v == null) return null;
+    if (v is int) return v;
+    return int.tryParse(v.toString());
   }
 
   int _parseInt(dynamic v) {

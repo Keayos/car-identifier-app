@@ -9,6 +9,9 @@ class CarModel {
   @Index(type: IndexType.value, caseSensitive: false)
   late String makeModel;
 
+  @Index()
+  int? makeId;
+
   String? make;
   String? model;
   String? trimDescription;

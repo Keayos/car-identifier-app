@@ -6,6 +6,7 @@ import '../../../domain/entities/car.dart';
 import '../../../domain/entities/car_recognition_result.dart';
 import '../../providers/recognition_provider.dart';
 import '../../widgets/car_card.dart';
+import '../../widgets/dubizzle_search_button.dart';
 import '../detail/detail_screen.dart';
 
 class RecognitionResultScreen extends ConsumerStatefulWidget {
@@ -114,27 +115,34 @@ class _RecognitionResultScreenState
 
   Widget _buildResult(BuildContext context, CarRecognitionResult result) {
     if (!result.hasMatch) {
-      return Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.divider),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.info_outline,
-                color: AppColors.textSecondary, size: 18),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                'Not found in database. AI guess: ${result.displayGuess}',
-                style: const TextStyle(
-                    color: AppColors.textSecondary, fontSize: 13),
-              ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: AppColors.divider),
             ),
-          ],
-        ),
+            child: Row(
+              children: [
+                const Icon(Icons.info_outline,
+                    color: AppColors.textSecondary, size: 18),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Not found in database. AI guess: ${result.displayGuess}',
+                    style: const TextStyle(
+                        color: AppColors.textSecondary, fontSize: 13),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          DubizzleSearchButton(query: result.displayGuess),
+        ],
       );
     }
 
@@ -169,6 +177,8 @@ class _RecognitionResultScreenState
             fontWeight: FontWeight.bold,
           ),
         ),
+        const SizedBox(height: 16),
+        DubizzleSearchButton(query: result.displayGuess),
         const SizedBox(height: 20),
 
         Row(

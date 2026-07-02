@@ -21,4 +21,9 @@ class IsarCarDatasource {
   Future<CarModel?> getById(int id) => _isar.carModels.get(id);
 
   Future<int> count() => _isar.carModels.count();
+
+  Future<List<CarModel>> getAll() => _isar.carModels.where().findAll();
+
+  Future<List<CarModel>> getByMakeId(int makeId) =>
+      _isar.carModels.filter().makeIdEqualTo(makeId).findAll();
 }

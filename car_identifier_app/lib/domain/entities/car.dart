@@ -1,6 +1,7 @@
 class Car {
   final int id;
   final String makeModel;
+  final int? makeId;
   final String? make;
   final String? model;
   final String? trimDescription;
@@ -18,6 +19,7 @@ class Car {
   const Car({
     required this.id,
     required this.makeModel,
+    this.makeId,
     this.make,
     this.model,
     this.trimDescription,

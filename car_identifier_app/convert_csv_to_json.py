@@ -48,6 +48,7 @@ def convert():
                 continue
 
             cars.append({
+                'Make Id':              clean_int(row.get('Make Id', '')),
                 'Make Model':           make_model,
                 'Make':                 clean_str(row.get('Make', '')),
                 'Model':                clean_str(row.get('Model', '')),
