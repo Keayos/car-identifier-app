@@ -7,6 +7,7 @@ import '../../../domain/entities/car_recognition_result.dart';
 import '../../providers/recognition_provider.dart';
 import '../../widgets/car_card.dart';
 import '../../widgets/dubizzle_search_button.dart';
+import '../../widgets/save_car_button.dart';
 import '../detail/detail_screen.dart';
 
 class RecognitionResultScreen extends ConsumerStatefulWidget {
@@ -137,6 +138,13 @@ class _RecognitionResultScreenState
                         color: AppColors.textSecondary, fontSize: 13),
                   ),
                 ),
+                SaveCarButton(
+                  id: widget.image.path,
+                  tempImagePath: widget.image.path,
+                  displayName: result.displayGuess,
+                  make: result.recognizedMake,
+                  model: result.recognizedModel,
+                ),
               ],
             ),
           ),
@@ -169,13 +177,27 @@ class _RecognitionResultScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          result.displayGuess,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                result.displayGuess,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SaveCarButton(
+              id: widget.image.path,
+              tempImagePath: widget.image.path,
+              displayName: result.displayGuess,
+              make: result.recognizedMake,
+              model: result.recognizedModel,
+              matchedCarId: cars.isNotEmpty ? cars.first.id : null,
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         DubizzleSearchButton(query: result.displayGuess),

@@ -10,6 +10,7 @@ import '../../widgets/make_card.dart';
 import '../detail/detail_screen.dart';
 import '../make_models/make_models_screen.dart';
 import '../recognition/recognition_result_screen.dart';
+import '../saved/saved_cars_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -111,6 +112,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.bookmark_border_rounded,
+                color: AppColors.textPrimary),
+            tooltip: 'Saved cars',
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SavedCarsScreen()),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.camera_alt_outlined,
                 color: AppColors.textPrimary),
